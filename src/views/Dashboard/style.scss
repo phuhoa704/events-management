@@ -1,0 +1,31 @@
+.dashboard {
+    .dashboard-content {
+        width: 80%;
+        margin: auto;
+
+        .dashboard-sidebar {
+
+            .sidebar {
+                .sidebar-links {
+                    text-align: left;
+
+                    .sidebar-link-col {
+                        cursor: pointer;
+                        a {
+                            font-size: 1.1rem;
+                            color: #000;
+                        }
+                    }
+
+                    .sidebar-link-col:hover {
+                        background-color: #C7F3D3;
+
+                        a {
+                            color: #073313;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

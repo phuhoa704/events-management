@@ -1,0 +1,51 @@
+.navbar {
+    height: 60px;
+    box-shadow: 0 2px 0.75rem rgba(12,14,28,.08);
+
+    .navbar-container {
+        width: 90%;
+        margin: auto;
+        display: flex;
+        height: 100%;
+
+        .logo-container {
+            img {
+                height: 60px;
+                cursor: pointer;
+            }
+        }
+
+        .menu-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+
+            .menus {
+                display: flex;
+                align-items: center;
+
+                a {
+                    text-decoration: none;
+                    font-size: 1rem;
+                    font-weight: 500;
+                    color: #000;
+                    margin-left: 30px;
+
+                    &:hover {
+                        color: #1668e3;
+                    }
+                }
+
+                span {
+                    margin-left: 30px;
+                    cursor: pointer;
+
+                    &:hover {
+                        color: #1668e3;
+                    }
+                }
+            }
+        }
+    }
+}
