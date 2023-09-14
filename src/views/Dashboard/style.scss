@@ -1,4 +1,12 @@
 .dashboard {
+    padding: 0 0 20px 0;
+
+    .dashboard-header {
+        background-image: url('../../assets/bg-1.jpg');
+        padding: 20px;
+        color: #fff;
+    }
+
     .dashboard-content {
         width: 80%;
         margin: auto;
@@ -11,10 +19,20 @@
 
                     .sidebar-link-col {
                         cursor: pointer;
+                        border-bottom: .1rem solid #ebebeb;
+                        padding: 5px;
+                        font-weight: 300;
+
                         a {
-                            font-size: 1.1rem;
                             color: #000;
+                            font-family: 'Inter', sans-serif;
                         }
+                    }
+
+                    .sidebar-link-col-active {
+                        border-left: 3px solid #073313;
+                        font-weight: 500;
+                        background-color: #C7F3D3;
                     }
 
                     .sidebar-link-col:hover {
@@ -22,9 +40,101 @@
 
                         a {
                             color: #073313;
+
+                            span {
+                                color: #073313;
+                            }
                         }
                     }
                 }
+            }
+        }
+
+        //logs
+        .log-item {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 10px;
+            padding: 10px;
+
+            .log-icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+
+            .log-amount, .log-actions {
+                display: flex;
+                align-items: center;
+                height: 100%;
+            }
+
+            .log-detail-col {
+                text-align: left;
+            }
+
+            .log-amount {
+                flex-direction: column;
+            }
+
+            .log-actions {
+                button:first-child {
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .log-filter {
+            display: flex;
+            align-items: center;
+
+            button:nth-child(even) {
+                margin: 0 10px;
+            }
+
+            .log-filter-active {
+                color: #073313;
+                border: 1px solid #073313;
+            }
+        }
+        //transactions
+        .transaction-item {
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            border-radius: 10px;
+            padding: 10px;
+
+            .transaction-icon {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+            }
+
+            .transaction-amount {
+                display: flex;
+                align-items: center;
+                height: 100%;
+            }
+
+            .transaction-detail-col {
+                text-align: left;
+            }
+
+            .transaction-amount {
+                flex-direction: column;
+            }
+        }
+        .transaction-filter {
+            display: flex;
+            align-items: center;
+
+            button:nth-child(even) {
+                margin: 0 10px;
+            }
+
+            .transaction-filter-active {
+                color: #073313;
+                border: 1px solid #073313;
             }
         }
     }

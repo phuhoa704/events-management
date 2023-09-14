@@ -1,0 +1,52 @@
+.type_carousel {
+    margin: auto;
+    width: 75%;
+
+    .type-item {
+        padding: 5px 0;
+        
+        .type-container {
+            width: 50%;
+            margin: auto;
+            cursor: pointer;
+            padding: 5px 0;
+            background-image: linear-gradient(to right,
+                    #073313,
+                    #073313 50%,
+                    #000 50%);
+            background-size: 200% 100%;
+            background-position: -100%;
+            display: inline-block;
+            position: relative;
+            -webkit-background-clip: text;
+            transition: all 0.3s ease-in-out;
+
+
+            .type-item-icon {
+                img {
+                    width: 30px;
+                }
+            }
+
+            &:hover {
+                background-position: 0;
+            }
+
+            &::before {
+                content: '';
+                background: #073313;
+                display: block;
+                position: absolute;
+                bottom: -3px;
+                left: 0;
+                width: 0;
+                height: 3px;
+                transition: all 0.3s ease-in-out;
+            }
+
+            &:hover::before {
+                width: 100%;
+            }
+        }
+    }
+}

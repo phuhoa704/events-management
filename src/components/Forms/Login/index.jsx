@@ -2,25 +2,37 @@ import { Form, Input, Row, Typography, Button, Col } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { router } from "../../../configs/router";
 import './style.scss';
+import { useDispatch } from "react-redux";
+import { login } from "../../../redux/actions/Auth";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
+const { Password } = Input;
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [form] = Form.useForm();
+    const handleLogin = async(values) => {
+        let rs = await dispatch(login(values));
+        if(rs.payload.action) {
+            form.resetFields();
+            navigate(rs.payload.route);
+        }
+    }
     return (
         <div className="login-form">
             <Title level={4}>Login to access your account</Title>
-            <Form form={form} layout="vertical" onFinish={() => navigate(router.DASHBOARD)}>
+            <Text>Haven't account yet ? <Link to={router.SIGNUP}>Signup here</Link></Text>
+            <Form form={form} layout="vertical" onFinish={handleLogin}>
                 <Row>
                     <Col md={24}>
-                        <Form.Item label='Email' name={'email'}>
-                            <Input placeholder="E-mail Address" size="large" />
+                        <Form.Item label='Email/Số điện thoại' name={'phone'}>
+                            <Input placeholder="Email/Số điện thoại" size="large" />
                         </Form.Item>
                     </Col>
                     <Col md={24}>
-                        <Form.Item label='Password' name={'Password'}>
-                            <Input placeholder="Password" type="password" size="large" />
+                        <Form.Item label='Password' name={'password'}>
+                            <Password placeholder="Password" size="large" />
                         </Form.Item>
                     </Col>
                     <Col md={24} style={{ textAlign: 'right' }}>

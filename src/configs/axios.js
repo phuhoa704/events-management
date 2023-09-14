@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { store } from '../redux/store';
+import queryString from 'query-string';
 import { API_URL } from './apiUrl';
 
 const axiosClient = axios.create({
@@ -14,11 +15,12 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(async config => {
   const url = API_URL;
-  const token = await store.getState().login.token;
+  const token = await store.getState().auth.token;
+  const typeToken = await store.getState().auth.typeToken;
 
   config.baseURL = url;
   if (token) {
-    config.headers.Authorization = `${token}`;
+    config.headers.Authorization = `${typeToken} ${token}`;
   }
   return config;
 });

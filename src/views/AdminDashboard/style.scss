@@ -1,0 +1,58 @@
+.admin-dashboard {
+    text-align: left;
+
+    .dashboard-title {
+        p {
+            color: #bbb9b9;
+        }
+    }
+
+    .dashboard-target {
+        // background-image: url('../../assets/dashboard-bg.jpg');
+        background-color: rgba(199, 243, 211, 0.6);
+        background-size: cover;
+    }
+
+    .dashboard-card {
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
+        .icon-container {
+            font-size: 21px;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            color: #fff;
+            align-items: center;
+        }
+
+        .desc-container {
+            p {
+                font-size: 16px;
+            }
+
+            small {
+                color: #bbb9b9;
+
+            }
+        }
+    }
+
+    .dashboard-card-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .dashboard-card-more {
+        background-color: #eeeaea;
+    }
+
+    .top-deals-card {
+
+        h4 {
+            margin: 0;
+        }
+    }
+}

@@ -1,8 +1,9 @@
 import SearchBar from "../../components/SearchBar";
 import FastMarquee from "../../components/Marquee";
 import Popular from "../../components/Popular";
-import './style.scss';
 import About from "../../components/About";
+import Types from "../../components/Types";
+import './style.scss';
 
 const Homepage = () => {
     return (
@@ -16,6 +17,7 @@ const Homepage = () => {
                 </div>
             </div>
             <div className="homepage-content">
+                <Types />
                 <Popular />
             </div>
             <div className="homepage-about">

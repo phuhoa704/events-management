@@ -3,6 +3,11 @@
     margin: auto;
     padding-bottom: 30px;
 
+    h2 {
+        text-align: left;
+        font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
+    }
+
     .popular-card {
         height: 300px;
         background-position: center;
@@ -15,10 +20,6 @@
         align-items: flex-start;
         transition: transform .5s;
 
-        /* .backdrop {
-            background-color: rgba(255, 255, 255, 0.3);
-        } */
-
         h5,
         h4 {
             padding: 5px;
@@ -28,9 +29,5 @@
             margin: 5px !important;
         }
 
-    }
-
-    .popular-card:hover {
-        background-size: 800px;
     }
 }

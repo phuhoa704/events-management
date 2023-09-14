@@ -1,11 +1,8 @@
-import { Typography } from 'antd';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { dataPopular } from '../../configs/data';
 import PopularCard from './Card';
 import './style.scss';
-
-const { Title } = Typography;
 
 const Popular = () => {
     const responsive = {
@@ -28,10 +25,10 @@ const Popular = () => {
     };
     return (
         <section className="popular">
-            <Title level={3} style={{ textAlign: 'left', fontWeight: 500 }}>Tìm kiếm phổ biến</Title>
+            <h2>Tìm kiếm phổ biến</h2>
             <Carousel responsive={responsive} itemClass='popular_carousel_item' className="popular_carousel">
                 {dataPopular.map(item => (
-                    <PopularCard record={item} />
+                    <PopularCard record={item} key={item.id}/>
                 ))}
             </Carousel>
         </section>

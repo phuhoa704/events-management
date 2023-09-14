@@ -1,6 +1,8 @@
 import { Form, Button, DatePicker, Select, Row, Col, Typography, InputNumber } from 'antd';
 import { Icon } from '@blueprintjs/core';
 import { SearchOutlined } from '@ant-design/icons';
+import moment from 'moment';
+import 'moment/locale/vi'
 import './style.scss';
 
 const { Text } = Typography;
@@ -10,10 +12,10 @@ const selectOptions = [
     {
         value: 1,
         label: <Row>
-            <Col span={4} style={{ display: 'flex', alignItems: 'center' }}>
+            <Col span={2} style={{ display: 'flex', alignItems: 'center' }}>
                 <Icon icon='map-marker' />
             </Col>
-            <Col span={20}>
+            <Col span={22}>
                 <Row>
                     <Col span={24}>
                         <Text strong>Đà Nẵng</Text>
@@ -76,7 +78,7 @@ const SearchBar = () => {
                     </Col>
                     <Col span={9}>
                         <Form.Item name={'checkin'} label={<Text strong>Thời gian nhận chỗ</Text>}>
-                            <DatePicker placeholder='Thời gian nhận chỗ' className='weight500' style={{ width: '100%' }} size='large' />
+                            <DatePicker placeholder='Thời gian nhận chỗ' className='weight500' style={{ width: '100%', fontFamily: 'Inter sans-serif' }} size='large' />
                         </Form.Item>
                     </Col>
                     <Col span={9}>
@@ -86,11 +88,11 @@ const SearchBar = () => {
                     </Col>
                     <Col md={6} style={{ textAlign: 'left' }}>
                         <Form.Item name={'checkout'} label={<Text strong>Thời gian trả chỗ</Text>}>
-                            <Text strong>Thứ 6, ngày 16 tháng 8 năm 2023</Text>
+                            <Text strong>{moment().locale('vi').format('dddd, DD MMMM YYYY')}</Text>
                         </Form.Item>
                     </Col>
                     <Col span={18}>
-                        <Form.Item name={'type'} label={<Text strong>Số ngày</Text>}>
+                        <Form.Item name={'type'} label={<Text strong>Loại địa điểm</Text>}>
                             <Select placeholder='Loại' style={{ textAlign: 'left', fontWeight: 500 }} size='large'>
                                 <Option value={1}>Buổi hòa nhạc</Option>
                                 <Option value={2}>Blah blah</Option>

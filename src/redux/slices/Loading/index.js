@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  loading: false
+  loading: false,
+  redirect: false
 }
 
 export const loadingSlice = createSlice({
@@ -13,10 +14,13 @@ export const loadingSlice = createSlice({
     },
     hideLoading: (state) => {
         state.loading = false
+    },
+    setRedirect: (state, action) => {
+      state.redirect = action.payload;
     }
   },
 })
 
-export const { showLoading, hideLoading } = loadingSlice.actions
+export const { showLoading, hideLoading, setRedirect } = loadingSlice.actions
 
 export default loadingSlice.reducer

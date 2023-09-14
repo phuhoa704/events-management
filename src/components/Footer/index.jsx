@@ -1,4 +1,4 @@
-import { Row, Col, Typography, Button } from 'antd';
+import { Row, Col, Typography, Input } from 'antd';
 import { footerIcons } from '../../configs/data';
 import { footerShortcutFirstCol, footerShortcutSecondCol } from '../../configs/data';
 import './style.scss';
@@ -15,8 +15,8 @@ const Footer = () => {
                     </Col>
                     <Col md={16} style={{ paddingTop: 20 }}>
                         <div className="footer-icon">
-                            {footerIcons.map(item => (
-                                <img src={item.icon} alt='' />
+                            {footerIcons.map((item, idx) => (
+                                <img src={item.icon} alt='' key={idx}/>
                             ))}
                         </div>
                     </Col>
@@ -39,14 +39,10 @@ const Footer = () => {
                     <Col md={12}>
                         <div className="footer-shortcut">
                             <Title level={4}>Subscribe to our newsletter</Title>
-                            <div className='inputBox relative'>
-                                <input
-                                    type={'email'}
-                                    autoComplete='off'
-                                />
-                                <span className='absolute left-0 text-sm'>{'Email'}</span>
+                            <div className='footer-form'>
+                                <Input placeholder='Nhập địa chỉ email...' size='large'/>
+                                <button>Subscribe</button>
                             </div>
-                            <Button>Subcribe</Button>
                         </div>
                     </Col>
                 </Row>
