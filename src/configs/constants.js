@@ -4,6 +4,12 @@ export const FILTER_BUTTON = [
     { id: 'APPROVE', name: 'Đã duyệt' },
 ]
 
+export const USER_TYPE = {
+    ADMIN: 1,
+    MANAGER: 2,
+    EVENTER: 3
+}
+
 export const CC_TOKEN = 'CC_TOKEN';
 export const CC_TYPETOKEN = 'CC_TYPETOKEN';
 export const CC_USER = 'CC_USER';
@@ -18,6 +24,11 @@ export const GENDER = [
     {id: 1, name: 'Nam' },
     {id: 2, name: 'Nữ' },
     {id: 3, name: 'Khác' },
+]
+
+export const STATUS = [
+    { id: 1, name: 'Hoạt động'},
+    { id: 2, name: 'Khóa'}
 ]
 
 export const MOVE_TO_TRASH = {
@@ -59,5 +70,8 @@ export const FORM_MESSAGE = {
     },
     CATEGORY: {
         REQUIRED: 'Vui lòng nhập tên danh mục'
+    },
+    ROLES: {
+        REQUIRE: 'Vui lòng chọn vai trò'
     }
 }

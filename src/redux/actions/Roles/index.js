@@ -3,19 +3,19 @@ import { showLoading, hideLoading } from '../../slices/Loading';
 import axiosClient from '../../../configs/axios';
 import { endpoint } from '../../../configs/apiUrl';
 import { Notification } from '../../../components/Notification';
-import { saveCategories, saveCategoryById, saveTrashBin } from '../../slices/Categories';
 import { logout } from '../Auth';
+import { saveRoles, saveRoleById, saveTrashBin, savePermissionsInRoleById } from '../../slices/Roles';
 import { catchErrorResponse } from '../../../utils/catchErrorResponse';
 
-export const listCategories = createAsyncThunk(
-    'categories/listCategories',
+export const getListRoles = createAsyncThunk(
+    'roles/getListRoles',
     async(data, thunky) => {
         try {
             thunky.dispatch(showLoading());
-            const res = await axiosClient.get(endpoint.CATEGORY_LIST);
+            const res = await axiosClient.get(endpoint.ROLES_LIST);
             thunky.dispatch(hideLoading());
             if(res.data.result) {
-                thunky.dispatch(saveCategories(res.data.data));
+                thunky.dispatch(saveRoles(res.data.data));
                 return {
                     action: true,
                     data: res.data.data,
@@ -37,22 +37,19 @@ export const listCategories = createAsyncThunk(
     }
 )
 
-export const createCategory = createAsyncThunk(
-    'categories/createCategory',
+export const createRole = createAsyncThunk(
+    'roles/createRole',
     async(data, thunky) => {
         try {
             thunky.dispatch(showLoading());
-            const res = await axiosClient.post(endpoint.CATEGORY_CREATE, data, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
+            const res = await axiosClient.post(endpoint.ROLES_CREATE, data);
             thunky.dispatch(hideLoading());
             if(res.data.result) {
-                thunky.dispatch(listCategories([]));
-                Notification('success', 'Tạo loại', res.data.message);
+                thunky.dispatch(getListRoles([]));
+                Notification('success', 'Tạo', res.data.message);
                 return {
                     action: true,
+                    data: res.data.data,
                     message: res.data.message
                 }
             }
@@ -61,91 +58,30 @@ export const createCategory = createAsyncThunk(
             if(errRes) {
                 thunky.dispatch(logout({}));
             } else {
-                Notification('error', 'Tạo loại', err.response.data.message);
+                Notification('error', 'Lỗi', err.response.data.message);
             }
             return {
                 action: false,
-                message: err.response.data.message
+                message: err.response.data.message,
             }
         }
     }
 )
 
-export const categoryById = createAsyncThunk(
-    'categories/categoryById',
+export const showRole = createAsyncThunk(
+    'roles/showRole',
     async(data, thunky) => {
         try {
             thunky.dispatch(showLoading());
-            const res = await axiosClient.get(`${endpoint.CATEGORY_SHOW}/${data}`);
+            const res = await axiosClient.get(`${endpoint.ROLES_SHOW}/${data}`);
             thunky.dispatch(hideLoading());
             if(res.data.result) {
-                thunky.dispatch(saveCategoryById(res.data.data));
+                thunky.dispatch(saveRoleById(res.data.data));
+                thunky.dispatch(savePermissionsInRoleById(res.data.permissions));
                 return {
                     action: true,
-                    data: res.data.data
-                }
-            }
-        }catch(err){
-            const errRes = catchErrorResponse(err.response);
-            if(errRes) {
-                thunky.dispatch(logout({}));
-            } else {
-                Notification('error', 'Tìm loại', err.response.data.message);
-            }
-            return {
-                action: false,
-                message: err.response.data.message
-            }
-        }
-    }
-)
-
-export const updateCategory = createAsyncThunk(
-    'categories/updateCategory',
-    async(data, thunky) => {
-        try {
-            thunky.dispatch(showLoading());
-            const res = await axiosClient.post(`${endpoint.CATEGORY_UPDATE}/${data.id}`, data.data, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
-            thunky.dispatch(hideLoading());
-            if(res.data.result) {
-                thunky.dispatch(listCategories([]));
-                Notification('success', 'Cập nhật loại', res.data.message);
-                return {
-                    action: true,
-                    message: res.data.message
-                }
-            } 
-        }catch(err){
-            const errRes = catchErrorResponse(err.response);
-            if(errRes) {
-                thunky.dispatch(logout({}));
-            } else {
-                Notification('error', 'Cập nhật loại', err.response.data.message);
-            }
-            return {
-                action: false,
-                message: err.response.data.message
-            }
-        }
-    }
-)
-
-export const swapCategoriesOrder = createAsyncThunk(
-    'categories/swapCategoriesOrder',
-    async(data, thunky) => {
-        try {
-            thunky.dispatch(showLoading());
-            const res = await axiosClient.post(endpoint.CATEGORY_SWAP_ORDER, data);
-            thunky.dispatch(hideLoading());
-            if(res.data.result) {
-                thunky.dispatch(listCategories([]));
-                Notification('success', 'Đổi thứ tự danh mục', res.data.message);
-                return {
-                    action: true,
+                    data: res.data.data,
+                    permissions: res.data.permissions,
                     message: res.data.message
                 }
             }
@@ -154,29 +90,29 @@ export const swapCategoriesOrder = createAsyncThunk(
             if(errRes) {
                 thunky.dispatch(logout({}));
             } else {
-                Notification('error', 'Đổi thứ tự danh mục', err.response.data.message);
+                Notification('error', 'Lỗi', err.response.data.message);
             }
             return {
                 action: false,
-                message: err.response.data.message
+                message: err.response.data.message,
             }
         }
     }
 )
 
-export const deleteCategory = createAsyncThunk(
-    'categories/deleteCategory',
+export const updateRole = createAsyncThunk(
+    'roles/updateRole',
     async(data, thunky) => {
         try {
             thunky.dispatch(showLoading());
-            const res = await axiosClient.get(`${endpoint.CATEGORY_DELETE}/${data}`);
+            const res = await axiosClient.post(`${endpoint.ROLES_UPDATE}/${data.id}`, data.data);
             thunky.dispatch(hideLoading());
             if(res.data.result) {
-                thunky.dispatch(listCategories([]));
-                thunky.dispatch(getTrashList([]));
-                Notification('success', 'Xóa danh mục', res.data.message);
+                thunky.dispatch(getListRoles([]));
+                Notification('success', 'Cập nhật', res.data.message);
                 return {
                     action: true,
+                    data: res.data.data,
                     message: res.data.message
                 }
             }
@@ -185,28 +121,59 @@ export const deleteCategory = createAsyncThunk(
             if(errRes) {
                 thunky.dispatch(logout({}));
             } else {
-                Notification('error', 'Xóa danh mục', err.response.data.message);
+                Notification('error', 'Lỗi', err.response.data.message);
             }
             return {
                 action: false,
-                message: err.response.data.message
+                message: err.response.data.message,
             }
         }
     }
 )
 
-//trash bin
+export const deleteRole = createAsyncThunk(
+    'roles/deleteRole',
+    async(data, thunky) => {
+        try {
+            thunky.dispatch(showLoading());
+            const res = await axiosClient.get(`${endpoint.ROLES_DELETE}/${data}`);
+            thunky.dispatch(hideLoading());
+            if(res.data.result) {
+                thunky.dispatch(getListRoles([]));
+                Notification('success', 'Xóa', res.data.message);
+                return {
+                    action: true,
+                    data: res.data.data,
+                    message: res.data.message
+                }
+            }
+        }catch(err){
+            const errRes = catchErrorResponse(err.response);
+            if(errRes) {
+                thunky.dispatch(logout({}));
+            } else {
+                Notification('error', 'Lỗi', err.response.data.message);
+            }
+            return {
+                action: false,
+                message: err.response.data.message,
+            }
+        }
+    }
+)
+
 export const getTrashList = createAsyncThunk(
-    'categories/getTrashList',
+    'roles/getTrashList',
     async(data, thunky) => {
         try {
             thunky.dispatch(showLoading());
-            const res = await axiosClient.get(endpoint.CATEGORY_TRASH_BIN);
+            const res = await axiosClient.get(endpoint.ROLES_TRASH_BIN);
             thunky.dispatch(hideLoading());
             if(res.data.result) {
                 thunky.dispatch(saveTrashBin(res.data.data));
                 return {
                     action: true,
+                    data: res.data.data,
                     message: res.data.message
                 }
             }
@@ -215,29 +182,30 @@ export const getTrashList = createAsyncThunk(
             if(errRes) {
                 thunky.dispatch(logout({}));
             } else {
-                Notification('error', 'Danh sách rác', err.response.data.message);
+                Notification('error', 'Lỗi', err.response.data.message);
             }
             return {
                 action: false,
-                message: err.response.data.message
+                message: err.response.data.message,
             }
         }
     }
 )
 
 export const restoreTrash = createAsyncThunk(
-    'categories/restoreTrash',
+    'roles/restoreTrash',
     async(data, thunky) => {
         try {
             thunky.dispatch(showLoading());
-            const res = await axiosClient.get(`${endpoint.CATEGORY_TRASH_RESTORE}/${data}`);
+            const res = await axiosClient.get(`${endpoint.ROLES_TRASH_RESTORE}/${data}`);
             thunky.dispatch(hideLoading());
             if(res.data.result) {
-                Notification('success', 'Hoàn tác danh mục', res.data.message);
                 thunky.dispatch(getTrashList([]));
-                thunky.dispatch(listCategories([]));
+                thunky.dispatch(getListRoles([]));
+                Notification('success', 'Xóa', res.data.message);
                 return {
                     action: true,
+                    data: res.data.data,
                     message: res.data.message
                 }
             }
@@ -246,28 +214,30 @@ export const restoreTrash = createAsyncThunk(
             if(errRes) {
                 thunky.dispatch(logout({}));
             } else {
-                Notification('error', 'Hoàn tác danh mục', err.response.data.message);
+                Notification('error', 'Lỗi', err.response.data.message);
             }
             return {
                 action: false,
-                message: err.response.data.message
+                message: err.response.data.message,
             }
         }
     }
 )
 
 export const deleteTrash = createAsyncThunk(
-    'categories/deleteTrash',
+    'roles/deleteTrash',
     async(data, thunky) => {
         try {
             thunky.dispatch(showLoading());
-            const res = await axiosClient.get(`${endpoint.CATEGORY_TRASH_DELETE}/${data}`);
+            const res = await axiosClient.get(`${endpoint.ROLES_TRASH_DELETE}/${data}`);
             thunky.dispatch(hideLoading());
             if(res.data.result) {
-                Notification('success', 'Xóa danh mục', res.data.message);
-                thunky.dispatch(getTrashList([]))
+                thunky.dispatch(getTrashList([]));
+                thunky.dispatch(getListRoles([]));
+                Notification('success', 'Xóa', res.data.message);
                 return {
                     action: true,
+                    data: res.data.data,
                     message: res.data.message
                 }
             }
@@ -276,11 +246,11 @@ export const deleteTrash = createAsyncThunk(
             if(errRes) {
                 thunky.dispatch(logout({}));
             } else {
-                Notification('error', 'Xóa danh mục', err.response.data.message);
+                Notification('error', 'Lỗi', err.response.data.message);
             }
             return {
                 action: false,
-                message: err.response.data.message
+                message: err.response.data.message,
             }
         }
     }

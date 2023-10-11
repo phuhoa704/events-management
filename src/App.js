@@ -26,6 +26,8 @@ import Categories from './components/Dashboard/Contents/Admin/Categories';
 import { CC_TOKEN, CC_TYPETOKEN, CC_USER } from './configs/constants';
 import { saveToken, saveTypeToken, saveUser, saveUserDashboard } from './redux/slices/Auth';
 import { getListPermissions } from './redux/actions/Permissions';
+import { getMyProfile } from './redux/actions/Profile';
+import RolesManagement from './components/Dashboard/Contents/Admin/Roles';
 
 function App() {
   const dispatch = useDispatch();
@@ -64,10 +66,10 @@ function App() {
     }
   }, [dispatch])
   useEffect(() => {
-    if(Object.keys(user)) {
-      dispatch(getListPermissions([]));
+    if(token) {
+      dispatch(getMyProfile({}));
     }
-  }, [user])
+  }, [token])
   const isSticky = (e) => {
     const header = document.querySelector('.navbar');
     const sidebar = document.querySelector('.dashboard-sidebar');
@@ -86,7 +88,7 @@ function App() {
     return token ? children : <Homepage />
   }
   const AdminRoute = ({ children }) => {
-    return (user.user_type === 1) ? children : <Homepage />
+    return !(user.user_type === 1) ? <Homepage /> : children
   }
   return (
     <div className="App">
@@ -105,10 +107,11 @@ function App() {
           <Route path={router.NOTIFICATION} element={<Notification />} />
         </Route>
         <Route path={router.ADM_DASHBOARD} element={<AdminDashboardLayout />}>
-          <Route path={''} index element={<AdminDashboard />} />
+          <Route path={router.ADMIN_DASHBOARD} index element={<AdminDashboard />} />
           <Route path={router.ADMIN_USER_MANAGEMENT} element={<UserManagement />} />
           <Route path={router.ADMIN_LOG_MANAGEMENT} element={<LogsManagement />} />
           <Route path={router.ADMIN_CATEGORIES} element={<Categories />}/>
+          <Route path={router.ADMIN_ROLES} element={<RolesManagement />} />
         </Route>
         <Route path='*' element={<NotFound />} />
       </Routes>

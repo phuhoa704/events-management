@@ -4,6 +4,9 @@ import lang from './slices/Lang';
 import auth from './slices/Auth';
 import categories from './slices/Categories';
 import permissons from './slices/Permissions';
+import profile from './slices/Profile';
+import staffs from './slices/Staffs';
+import roles from './slices/Roles';
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +14,9 @@ export const store = configureStore({
     lang,
     auth,
     categories,
-    permissons
+    permissons,
+    profile,
+    staffs,
+    roles
   },
 })

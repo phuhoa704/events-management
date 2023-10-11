@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
-import { Row, Col, Button, Table, Tooltip, Tag, Popconfirm } from 'antd';
-import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useSelector, useDispatch } from 'react-redux';
-import { getListStaffs, deleteStaff, showStaff } from '../../../../../redux/actions/Staffs';
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import ModalAdd from '../../../../Modals/Staffs/Add';
+import { useState } from 'react';
+import { Row, Col, Tooltip, Button, Table, Popconfirm } from 'antd';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getListRoles, showRole, deleteRole } from '../../../../../redux/actions/Roles';
+import { EditOutlined, QuestionCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import moment from 'moment';
-import ModalEdit from '../../../../Modals/Staffs/Edit';
-import { getListRoles } from '../../../../../redux/actions/Roles';
+import { getListPermissions } from '../../../../../redux/actions/Permissions';
+import ModalAdd from '../../../../Modals/Roles/Add';
+import ModalEdit from '../../../../Modals/Roles/Edit';
 
-const UserManagement = () => {
+const RolesManagement = () => {
     const dispatch = useDispatch();
-    const staffs = useSelector(state => state.staffs.staffs);
     const [modalAdd, setModalAdd] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
+    const roles = useSelector(state => state.roles.roles);
     const columns = [
         {
             title: 'STT',
@@ -21,21 +21,12 @@ const UserManagement = () => {
             render: (_, __, index) => index + 1
         },
         {
-            title: 'Họ và tên',
+            title: 'Tên',
             dataIndex: 'name'
         },
         {
-            title: 'Email',
-            dataIndex: 'email'
-        },
-        {
-            title: 'Số điện thoại',
-            dataIndex: 'phone'
-        },
-        {
-            title: 'Trạng thái',
-            dataIndex: 'active',
-            render: (_, record) => <Tag color={(record.active === 1) ? '#87d068' : '#f50'}>{(record.active === 1) ? 'Hoạt động' : 'Khóa'}</Tag>
+            title: 'Mô tả',
+            dataIndex: 'desc'
         },
         {
             title: 'Ngày tạo',
@@ -47,19 +38,24 @@ const UserManagement = () => {
             dataIndex: 'index',
             render: (_, record) => (
                 <>
-                    <Button type='primary' icon={<EditOutlined />} style={{ marginRight: 5 }} onClick={async() => {
-                        let rs = await dispatch(showStaff(record.id));
-                        if(rs.payload.action) {
-                            setModalEdit(true);
-                        }
-                    }}></Button>
+                    <Button
+                        type='primary'
+                        icon={<EditOutlined />}
+                        style={{ marginRight: 5 }}
+                        onClick={async() => {
+                            let rs = await dispatch(showRole(record.id));
+                            if(rs.payload.action){
+                                setModalEdit(true);
+                            }
+                        }}
+                    ></Button>
                     <Popconfirm
                         title='Xóa người dùng ?'
-                        description='Bạn có chắc chắn muốn xóa người dùng này ?'
+                        description='Bạn có chắc chắn muốn xóa vai trò này ?'
                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                         okText='Có'
                         cancelText='Không'
-                        onConfirm={() => dispatch(deleteStaff(record.id))}
+                        onConfirm={() => dispatch(deleteRole(record.id))}
                     >
                         <Button type='primary' icon={<DeleteOutlined />} danger></Button>
                     </Popconfirm>
@@ -68,15 +64,15 @@ const UserManagement = () => {
         }
     ]
     useEffect(() => {
-        dispatch(getListStaffs([]));
         dispatch(getListRoles([]));
+        dispatch(getListPermissions([]));
     }, [])
     return (
         <>
             <ModalAdd open={modalAdd} closeModal={() => setModalAdd(false)} />
             <ModalEdit open={modalEdit} closeModal={() => setModalEdit(false)}/>
             <Row gutter={[10, 10]}>
-                <h3>Quản lý nhân viên</h3>
+                <h3>Quản lý vai trò</h3>
                 <Col md={24} style={{ textAlign: 'right' }}>
                     <Tooltip title='Xuất dữ liệu' placement='bottom'>
                         <Button type='default' style={{ marginRight: 10 }}>Export</Button>
@@ -86,11 +82,11 @@ const UserManagement = () => {
                     </Tooltip>
                 </Col>
                 <Col md={24}>
-                    <Table columns={columns} dataSource={staffs?.data} bordered />
+                    <Table columns={columns} dataSource={roles} bordered />
                 </Col>
             </Row>
         </>
     );
 }
 
-export default UserManagement;
+export default RolesManagement;

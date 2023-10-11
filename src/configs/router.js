@@ -13,6 +13,7 @@ export const router = {
     ADMIN_PUSH_EVENT: 'push-event',
     ADMIN_DASHBOARD: 'admin',
     ADMIN_CATEGORIES: 'categories',
+    ADMIN_ROLES: 'roles',
 
     //USER
     USER_CHANGEPASSWORD: 'change-password',
