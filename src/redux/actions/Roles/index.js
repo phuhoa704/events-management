@@ -140,6 +140,7 @@ export const deleteRole = createAsyncThunk(
             thunky.dispatch(hideLoading());
             if(res.data.result) {
                 thunky.dispatch(getListRoles([]));
+                thunky.dispatch(getTrashList([]));
                 Notification('success', 'Xóa', res.data.message);
                 return {
                     action: true,

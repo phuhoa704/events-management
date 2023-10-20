@@ -23,12 +23,7 @@ export const getMyProfile = createAsyncThunk(
                 }
             }
         }catch(err){
-            const errRes = catchErrorResponse(err.response);
-            if(errRes) {
-                thunky.dispatch(logout({}));
-            } else {
-                Notification('error', 'Lỗi', err.response.data.message);
-            }
+            thunky.dispatch(logout({}));
             return {
                 action: false,
                 message: err.response.data.message,

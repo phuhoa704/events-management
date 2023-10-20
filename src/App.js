@@ -23,9 +23,8 @@ import { setRedirect } from './redux/slices/Loading';
 import Loading from './components/Loading';
 import NotFound from './components/NotFound';
 import Categories from './components/Dashboard/Contents/Admin/Categories';
-import { CC_TOKEN, CC_TYPETOKEN, CC_USER } from './configs/constants';
-import { saveToken, saveTypeToken, saveUser, saveUserDashboard } from './redux/slices/Auth';
-import { getListPermissions } from './redux/actions/Permissions';
+import { CC_TOKEN, CC_TYPETOKEN, CC_USER, CC_PERMISSION_KEY, CC_PERMISSION_KEY_PARENT } from './configs/constants';
+import { saveToken, saveTypeToken, saveUser, saveUserDashboard, savePermissionKeys, savePermissionKeysParent } from './redux/slices/Auth';
 import { getMyProfile } from './redux/actions/Profile';
 import RolesManagement from './components/Dashboard/Contents/Admin/Roles';
 
@@ -35,6 +34,7 @@ function App() {
   const { token, user } = useSelector(state => state.auth);
   const loading = useSelector(state => state.loading.loading);
   const redirect = useSelector(state => state.loading.redirect);
+  const routePermits = useSelector(state => state.auth.permissionKeysParent);
   TopBarProgress.config({
     barColors: {
       "0": '#C7F3D3',
@@ -58,11 +58,15 @@ function App() {
     let token = window.localStorage.getItem(CC_TOKEN);
     let typeToken = window.localStorage.getItem(CC_TYPETOKEN);
     let user = window.localStorage.getItem(CC_USER);
+    let permissionKeys = window.localStorage.getItem(CC_PERMISSION_KEY);
+    let permissionKeysParent = window.localStorage.getItem(CC_PERMISSION_KEY_PARENT);
     if(token && user) {
       dispatch(saveToken(token));
       dispatch(saveTypeToken(typeToken));
       dispatch(saveUser(JSON.parse(user)));
       dispatch(saveUserDashboard((JSON.parse(user).user_type === 1) ? router.ADM_DASHBOARD : router.DASHBOARD));
+      dispatch(savePermissionKeys(JSON.parse(permissionKeys)));
+      dispatch(savePermissionKeysParent(JSON.parse(permissionKeysParent)));
     }
   }, [dispatch])
   useEffect(() => {
@@ -90,6 +94,17 @@ function App() {
   const AdminRoute = ({ children }) => {
     return !(user.user_type === 1) ? <Homepage /> : children
   }
+  const PermitRoutes = ({ children, key }) => {
+    if(user.admin) {
+      return children
+    } else {
+      if(routePermits.includes(key)) {
+        return children
+      } else {
+        return <NotFound />
+      }
+    }
+  }
   return (
     <div className="App">
       {redirect && <TopBarProgress />}
@@ -100,12 +115,12 @@ function App() {
         <Route path={router.LOGIN} element={<NoAuthRoute><Login /></NoAuthRoute>} />
         <Route path={router.DEALS} element={<Deals />} />
         <Route path={router.SIGNUP} element={<NoAuthRoute><Signup /></NoAuthRoute>} />
-        <Route path={router.DASHBOARD} element={<AuthRoute><DashboardLayout /></AuthRoute>}>
+        {/* <Route path={router.DASHBOARD} element={<AuthRoute><DashboardLayout /></AuthRoute>}>
           <Route path={''} index element={<UserInformation />} />
           <Route path={router.USER_HISTORY} element={<UserHistory />} />
           <Route path={router.USER_TRANSACTION} element={<UserTransaction />} />
           <Route path={router.NOTIFICATION} element={<Notification />} />
-        </Route>
+        </Route> */}
         <Route path={router.ADM_DASHBOARD} element={<AdminDashboardLayout />}>
           <Route path={router.ADMIN_DASHBOARD} index element={<AdminDashboard />} />
           <Route path={router.ADMIN_USER_MANAGEMENT} element={<UserManagement />} />

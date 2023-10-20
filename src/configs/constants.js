@@ -13,6 +13,8 @@ export const USER_TYPE = {
 export const CC_TOKEN = 'CC_TOKEN';
 export const CC_TYPETOKEN = 'CC_TYPETOKEN';
 export const CC_USER = 'CC_USER';
+export const CC_PERMISSION_KEY = 'CC_PERMISSION_KEY';
+export const CC_PERMISSION_KEY_PARENT = 'CC_PERMISSION_KEY_PARENT';
 
 export const TRANSACTION_FILTER_BTN = [
     { id: 'ALL', name: 'Tất cả' },
@@ -74,4 +76,10 @@ export const FORM_MESSAGE = {
     ROLES: {
         REQUIRE: 'Vui lòng chọn vai trò'
     }
+}
+
+export const PERMISSION_KEYS = {
+    CREATE_STAFF: 'staff_create',
+    UPDATE_STAFF: 'staff_update',
+    DELETE_STAFF: 'staff_delete'
 }

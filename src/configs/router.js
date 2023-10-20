@@ -5,13 +5,13 @@ export const router = {
     FORGOTPWD: '/forgot-password',
     DASHBOARD: '/dashboard',
     DEALS: '/deals',
-    ADM_DASHBOARD: '/admin/dashboard',
+    ADM_DASHBOARD: '/admin-dashboard',
     
     //ADMIN
-    ADMIN_USER_MANAGEMENT: 'user-management',
+    ADMIN_USER_MANAGEMENT: 'staffs',
     ADMIN_LOG_MANAGEMENT: 'log-management',
     ADMIN_PUSH_EVENT: 'push-event',
-    ADMIN_DASHBOARD: 'admin',
+    ADMIN_DASHBOARD: 'dashboard',
     ADMIN_CATEGORIES: 'categories',
     ADMIN_ROLES: 'roles',
 

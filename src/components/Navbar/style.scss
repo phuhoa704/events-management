@@ -63,3 +63,21 @@
         }
     }
 }
+
+.notify-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    font-size: 25px;
+}
+
+.notify-content {
+    p {
+        font-weight: 600;
+    }
+
+    small {
+        color: #87D068;
+    }
+}

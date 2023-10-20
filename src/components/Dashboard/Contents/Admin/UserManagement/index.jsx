@@ -8,10 +8,13 @@ import ModalAdd from '../../../../Modals/Staffs/Add';
 import moment from 'moment';
 import ModalEdit from '../../../../Modals/Staffs/Edit';
 import { getListRoles } from '../../../../../redux/actions/Roles';
+import { checkPermissions } from '../../../../../utils/helper';
+import { PERMISSION_KEYS } from '../../../../../configs/constants';
 
 const UserManagement = () => {
     const dispatch = useDispatch();
     const staffs = useSelector(state => state.staffs.staffs);
+    const permissions = useSelector(state => state.auth.permissionKeys);
     const [modalAdd, setModalAdd] = useState(false);
     const [modalEdit, setModalEdit] = useState(false);
     const columns = [
@@ -47,22 +50,26 @@ const UserManagement = () => {
             dataIndex: 'index',
             render: (_, record) => (
                 <>
-                    <Button type='primary' icon={<EditOutlined />} style={{ marginRight: 5 }} onClick={async() => {
-                        let rs = await dispatch(showStaff(record.id));
-                        if(rs.payload.action) {
-                            setModalEdit(true);
-                        }
-                    }}></Button>
-                    <Popconfirm
-                        title='Xóa người dùng ?'
-                        description='Bạn có chắc chắn muốn xóa người dùng này ?'
-                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                        okText='Có'
-                        cancelText='Không'
-                        onConfirm={() => dispatch(deleteStaff(record.id))}
-                    >
-                        <Button type='primary' icon={<DeleteOutlined />} danger></Button>
-                    </Popconfirm>
+                    {checkPermissions(permissions, PERMISSION_KEYS.UPDATE_STAFF) && (
+                        <Button type='primary' icon={<EditOutlined />} style={{ marginRight: 5 }} onClick={async () => {
+                            let rs = await dispatch(showStaff(record.id));
+                            if (rs.payload.action) {
+                                setModalEdit(true);
+                            }
+                        }}></Button>
+                    )}
+                    {checkPermissions(permissions, PERMISSION_KEYS.DELETE_STAFF) && (
+                        <Popconfirm
+                            title='Xóa người dùng ?'
+                            description='Bạn có chắc chắn muốn xóa người dùng này ?'
+                            icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                            okText='Có'
+                            cancelText='Không'
+                            onConfirm={() => dispatch(deleteStaff(record.id))}
+                        >
+                            <Button type='primary' icon={<DeleteOutlined />} danger></Button>
+                        </Popconfirm>
+                    )}
                 </>
             )
         }
@@ -74,16 +81,18 @@ const UserManagement = () => {
     return (
         <>
             <ModalAdd open={modalAdd} closeModal={() => setModalAdd(false)} />
-            <ModalEdit open={modalEdit} closeModal={() => setModalEdit(false)}/>
+            <ModalEdit open={modalEdit} closeModal={() => setModalEdit(false)} />
             <Row gutter={[10, 10]}>
                 <h3>Quản lý nhân viên</h3>
                 <Col md={24} style={{ textAlign: 'right' }}>
                     <Tooltip title='Xuất dữ liệu' placement='bottom'>
                         <Button type='default' style={{ marginRight: 10 }}>Export</Button>
                     </Tooltip>
-                    <Tooltip title='Tạo mới' placement='bottom'>
-                        <Button type='primary' onClick={() => setModalAdd(true)}>Tạo mới</Button>
-                    </Tooltip>
+                    {checkPermissions(permissions, PERMISSION_KEYS.CREATE_STAFF) && (
+                        <Tooltip title='Tạo mới' placement='bottom'>
+                            <Button type='primary' onClick={() => setModalAdd(true)}>Tạo mới</Button>
+                        </Tooltip>
+                    )}
                 </Col>
                 <Col md={24}>
                     <Table columns={columns} dataSource={staffs?.data} bordered />

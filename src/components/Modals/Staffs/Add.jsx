@@ -15,7 +15,6 @@ const ModalAdd = ({ open, closeModal }) => {
         let rs = await dispatch(createStaff({
             ...values,
             birthday: values.birthday ? moment(new Date(values.birthday)).format('YYYY-MM-DD') : null,
-            roles: [1]
         }))
         if(rs.payload.action) {
             form.resetFields();

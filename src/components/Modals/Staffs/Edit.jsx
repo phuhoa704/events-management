@@ -18,7 +18,6 @@ const ModalEdit = ({ open, closeModal }) => {
             data: {
                 ...values,
                 birthday: moment(new Date(values.birthday)).format('YYYY-MM-DD'),
-                roles: [1]
             }
         }));
         if(rs.payload.action) {

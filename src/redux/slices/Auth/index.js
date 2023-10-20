@@ -4,7 +4,9 @@ const initialState = {
   token: '',
   typeToken: '',
   user: {},
-  userDashboard: ''
+  userDashboard: '',
+  permissionKeys: [],
+  permissionKeysParent: []
 }
 
 export const authSlice = createSlice({
@@ -22,10 +24,16 @@ export const authSlice = createSlice({
     },
     saveUserDashboard: (state, action) => {
       state.userDashboard = action.payload;
+    },
+    savePermissionKeys: (state, action) => {
+      state.permissionKeys = action.payload;
+    },
+    savePermissionKeysParent: (state, action) => {
+      state.permissionKeysParent = action.payload;
     }
   },
 })
 
-export const { saveToken, saveUser, saveTypeToken, saveUserDashboard } = authSlice.actions
+export const { saveToken, saveUser, saveTypeToken, saveUserDashboard, savePermissionKeys, savePermissionKeysParent } = authSlice.actions
 
 export default authSlice.reducer
